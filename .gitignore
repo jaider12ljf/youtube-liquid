@@ -1,0 +1,14 @@
+node_modules/
+dist/
+android/app/build/
+android/.gradle/
+android/build/
+*.keystore
+*.jks
+keystore.properties
+client_secret*.json
+src/mobile/oauth-config.js
+www/
+_intento-anterior/
+*.log
+maquetas/thumbs/

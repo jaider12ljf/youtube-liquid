@@ -1,0 +1,44 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+html, body { margin: 0; background: transparent; overflow: hidden; }
+body { width: 1024px; height: 1024px; position: relative; }
+body.logo { width: 720px; height: 520px; }
+.tile { position: absolute; left: 64px; top: 64px; width: 896px; height: 896px; border-radius: 230px; corner-shape: superellipse(1.7); overflow: hidden;
+  background: radial-gradient(120% 90% at 30% 10%, #ffffff 0%, #f6f6f8 55%, #e8e8ed 100%);
+  box-shadow: 0 30px 60px -22px rgba(0,0,0,.35), inset 0 0 0 3px rgba(255,255,255,.95), inset 0 -14px 36px rgba(0,0,0,.05); }
+.tile::after { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 4px;
+  background: linear-gradient(150deg, #fff, rgba(255,255,255,0) 30%, rgba(0,0,0,.04) 70%, rgba(255,255,255,.9));
+  -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+
+/* botón de YouTube como vidrio rojo */
+.btn { position: absolute; left: 192px; top: 292px; width: 640px; height: 450px; border-radius: 132px; corner-shape: superellipse(1.35); }
+body.logo .btn { left: 40px; top: 35px; }
+.btn .body { position: absolute; inset: 0; border-radius: inherit; corner-shape: inherit; overflow: hidden;
+  background: linear-gradient(165deg, #ff5a6e 0%, #ff1a3d 38%, #f2002b 62%, #c8001f 100%);
+  box-shadow: 0 34px 60px -20px rgba(200, 0, 31, .55), 0 8px 18px -8px rgba(120, 0, 20, .35); }
+/* profundidad del vidrio: luz interna que entra arriba y rebota abajo */
+.btn .body::before { content: ''; position: absolute; inset: 0;
+  background: radial-gradient(90% 60% at 30% 0%, rgba(255,255,255,.42), rgba(255,255,255,0) 60%),
+              radial-gradient(70% 50% at 80% 110%, rgba(255,140,160,.55), rgba(255,140,160,0) 70%); }
+.btn .body::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 34px rgba(255,255,255,.22), inset 0 -18px 40px rgba(110,0,18,.28); }
+/* brillo de borde */
+.btn .rim { position: absolute; inset: 0; border-radius: inherit; corner-shape: inherit; padding: 6px;
+  background: linear-gradient(140deg, rgba(255,255,255,.95), rgba(255,255,255,.15) 28%, rgba(255,255,255,0) 50%, rgba(255,255,255,.08) 70%, rgba(255,255,255,.75));
+  -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+
+/* triángulo: capa de vidrio blanca que flota sobre el rojo */
+.tri { position: absolute; left: 252px; top: 128px; width: 176px; height: 194px; }
+.tri .sh { position: absolute; inset: 0; transform: translate(6px, 16px); background: rgba(120, 0, 20, .45); filter: blur(14px);
+  clip-path: polygon(8% 4%, 100% 50%, 8% 96%); }
+.tri .g { position: absolute; inset: 0; clip-path: path('M 26 6 Q 6 -4 6 22 L 6 172 Q 6 198 28 186 L 164 108 Q 182 97 164 86 Z');
+  background: linear-gradient(160deg, #ffffff 0%, #fff6f7 55%, #ffe1e6 100%); }
+.tri .hl { position: absolute; inset: 0; clip-path: path('M 26 6 Q 6 -4 6 22 L 6 172 Q 6 198 28 186 L 164 108 Q 182 97 164 86 Z');
+  background: linear-gradient(200deg, rgba(255,255,255,0) 40%, rgba(255,170,185,.55) 100%); mix-blend-mode: multiply; }
+</style></head>
+<body>
+<div class="tile"></div>
+<div class="btn"><div class="body"></div><div class="rim"></div>
+  <div class="tri"><div class="sh"></div><div class="g"></div><div class="hl"></div></div></div>
+<script>if (location.hash === '#logo') { document.body.classList.add('logo'); document.querySelector('.tile').remove(); }</script>
+</body></html>

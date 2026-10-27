@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Maqueta</title>
+<link rel="stylesheet" href="../src/ui/base.css">
+<style>
+  body { width: 1440px; height: 900px; position: relative; }
+  .win-ctl { position: absolute; top: 12px; right: 12px; z-index: 30; display: flex; gap: 2px; padding: 4px; border-radius: 999px; }
+  .win-ctl button { width: 30px; height: 26px; display: grid; place-items: center; border-radius: 999px; color: var(--label-2); }
+  .win-ctl .ic { width: 15px; height: 15px; stroke-width: 1.6; }
+  .scroller { position: absolute; inset: 0; overflow: hidden; }
+  .meta-row { display: flex; gap: 10px; align-items: flex-start; }
+  .meta-row .avatar { width: 30px; height: 30px; margin-top: 10px; }
+  .grid { display: grid; gap: 34px 22px; }
+  .shelf { display: flex; gap: 20px; }
+
+  /* ===== A: Tahoe — barra lateral flotante ===== */
+  .A .side { position: absolute; left: 10px; top: 10px; bottom: 10px; width: 236px; border-radius: 28px; corner-shape: superellipse(1.5); z-index: 20; padding: 54px 12px 12px; display: flex; flex-direction: column; }
+  .A .side .brand { position: absolute; top: 18px; left: 22px; display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; letter-spacing: -0.02em; }
+  .A .side .brand b { width: 22px; height: 16px; border-radius: 5px; background: var(--yt); display: grid; place-items: center; }
+  .A .side .brand b::after { content: ''; border-left: 6px solid #fff; border-top: 3.6px solid transparent; border-bottom: 3.6px solid transparent; margin-left: 1px; }
+  .A .nav { display: flex; flex-direction: column; gap: 2px; position: relative; }
+  .A .nav button { display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 10px; border-radius: 12px; font-size: 14px; font-weight: 500; position: relative; z-index: 3; }
+  .A .nav button .ic { width: 19px; height: 19px; color: var(--tint); }
+  .A .nav .pill { left: 0; right: 0; height: 36px; top: 0; border-radius: 12px; background: rgba(0,0,0,.06); }
+  .A .side .lbl { font-size: 11.5px; font-weight: 600; color: var(--label-3); margin: 18px 10px 6px; letter-spacing: 0; }
+  .A .chan { display: flex; align-items: center; gap: 10px; height: 34px; padding: 0 10px; font-size: 13.5px; font-weight: 500; }
+  .A .chan .avatar { width: 22px; height: 22px; }
+  .A .chan i { margin-left: auto; width: 6px; height: 6px; border-radius: 50%; background: var(--tint); }
+  .A .me { margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 16px; font-size: 13.5px; font-weight: 600; }
+  .A .me small { display: block; color: var(--label-2); font-weight: 450; font-size: 12px; }
+  .A .main { position: absolute; left: 0; right: 0; top: 0; bottom: 0; padding: 66px 40px 0 270px; }
+  .A .hero { position: relative; height: 430px; margin: 0 0 30px; overflow: hidden; border-radius: 30px; corner-shape: superellipse(1.5); box-shadow: 0 24px 50px -24px rgba(0,0,0,.35); }
+  .A .hero img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .A .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.62), rgba(0,0,0,.15) 55%, rgba(0,0,0,0)); }
+  .A .hero .info { position: absolute; left: 40px; bottom: 36px; z-index: 2; max-width: 620px; color: #fff; }
+  .A .hero .kick { font-size: 12.5px; font-weight: 650; color: rgba(255,255,255,.8); letter-spacing: .02em; text-transform: uppercase; }
+  .A .hero h1 { font-size: 40px; font-weight: 750; letter-spacing: -0.024em; line-height: 1.06; margin: 6px 0 8px; }
+  .A .hero p { margin: 0 0 18px; color: rgba(255,255,255,.75); font-size: 14.5px; }
+  .A .btns { display: flex; gap: 10px; }
+  .A .cta { height: 44px; padding: 0 22px 0 18px; border-radius: 999px; display: flex; align-items: center; gap: 8px; font-weight: 650; font-size: 15px; }
+  .A .cta.primary { background: #fff; color: #1d1d1f; box-shadow: 0 8px 22px -6px rgba(0,0,0,.35); }
+  .A .cta .ic { width: 17px; height: 17px; }
+  .A .cta.round { width: 44px; padding: 0; justify-content: center; }
+  .A .tools { position: absolute; top: 12px; right: 136px; z-index: 20; display: flex; gap: 8px; }
+  .A .searchcap { width: 300px; height: 40px; border-radius: 999px; display: flex; align-items: center; gap: 8px; padding: 0 14px; color: var(--label-2); font-size: 14px; }
+  .A .searchcap .ic { width: 17px; height: 17px; }
+  .A .circ { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; }
+  .A .circ .ic { width: 19px; height: 19px; }
+  .A .row-h { display: flex; align-items: baseline; justify-content: space-between; margin: 4px 0 14px; }
+  .A .row-h a { color: var(--tint); font-size: 14px; font-weight: 500; }
+  .A .shelf .card { width: 262px; flex: none; }
+  .A .scroller-strip { margin-right: -40px; overflow: hidden; }
+
+  /* ===== B: iOS — barra de pestañas cápsula abajo ===== */
+  .B .main { position: absolute; inset: 0; padding: 30px 56px 0; }
+  .B .head { display: flex; align-items: flex-end; justify-content: space-between; margin: 22px 0 18px; padding-right: 120px; }
+  .B .head .date { font-size: 13px; font-weight: 600; color: var(--label-2); text-transform: uppercase; letter-spacing: .01em; }
+  .B .chips { display: flex; gap: 8px; margin-bottom: 22px; }
+  .B .chip { height: 34px; padding: 0 15px; border-radius: 999px; background: var(--bg-2); font-size: 13.5px; font-weight: 550; display: flex; align-items: center; }
+  .B .chip.on { background: #1d1d1f; color: #fff; }
+  .B .grid { grid-template-columns: repeat(4, 1fr); }
+  .B .tabbar { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 20; display: flex; align-items: center; gap: 10px; }
+  .B .tabs { height: 62px; border-radius: 999px; display: flex; padding: 4px; position: relative; }
+  .B .tabs button { width: 104px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 11px; font-weight: 600; letter-spacing: 0; position: relative; z-index: 3; color: var(--label); }
+  .B .tabs button.on { color: var(--tint); }
+  .B .tabs button .ic { width: 23px; height: 23px; }
+  .B .tabs .pill { left: 4px; top: 4px; bottom: 4px; width: 104px; }
+  .B .searchbtn { width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; }
+  .B .searchbtn .ic { width: 23px; height: 23px; }
+  .B .mini { position: absolute; left: 50%; bottom: 96px; transform: translateX(-50%); width: 420px; height: 54px; border-radius: 999px; z-index: 20; display: flex; align-items: center; gap: 11px; padding: 0 8px 0 7px; }
+  .B .mini .thumb { width: 66px; height: 40px; aspect-ratio: auto; border-radius: 999px; }
+  .B .mini .t { flex: 1; min-width: 0; font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .B .mini .t small { display: block; font-weight: 450; color: var(--label-2); font-size: 12px; }
+  .B .mini button { width: 38px; height: 38px; display: grid; place-items: center; }
+  .B .mini .ic { width: 20px; height: 20px; }
+  .B .avatar-top { position: absolute; top: 12px; right: 136px; z-index: 20; }
+
+  /* ===== C: Reproductor — vista de video ===== */
+  .C .ambient { position: absolute; inset: -120px; z-index: 0; filter: blur(90px) saturate(1.5); opacity: .28; }
+  .C .ambient img { width: 100%; height: 100%; object-fit: cover; }
+  .C .top { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 20; display: flex; gap: 8px; align-items: center; }
+  .C .seg { height: 40px; border-radius: 999px; display: flex; padding: 3px; position: relative; }
+  .C .seg button { padding: 0 16px; font-size: 13.5px; font-weight: 600; position: relative; z-index: 3; }
+  .C .seg .pill { left: 3px; top: 3px; bottom: 3px; width: 72px; background: rgba(0,0,0,.07); }
+  .C .back { position: absolute; top: 12px; left: 14px; z-index: 20; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; }
+  .C .searchcap { width: 240px; height: 40px; border-radius: 999px; display: flex; align-items: center; gap: 8px; padding: 0 14px; color: var(--label-2); font-size: 14px; }
+  .C .searchcap .ic { width: 17px; height: 17px; }
+  .C .stage { position: absolute; left: 32px; top: 70px; width: 960px; z-index: 1; }
+  .C .player { width: 960px; height: 540px; border-radius: 26px; corner-shape: superellipse(1.5); overflow: hidden; position: relative; box-shadow: 0 30px 60px -20px rgba(0,0,0,.35), 0 0 0 .5px rgba(0,0,0,.1); }
+  .C .player img { width: 100%; height: 100%; object-fit: cover; }
+  .C .ctrls { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); width: 600px; height: 56px; border-radius: 999px; display: flex; align-items: center; gap: 12px; padding: 0 18px; color: #fff; }
+  
+  .C .ctrls .ic { width: 22px; height: 22px; }
+  .C .bar { flex: 1; height: 5px; border-radius: 9px; background: rgba(255,255,255,.35); position: relative; }
+  .C .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 38%; border-radius: 9px; background: #fff; }
+  .C .ctrls span { font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .C h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.024em; margin: 20px 4px 12px; }
+  .C .chanrow { display: flex; align-items: center; gap: 12px; margin: 0 4px; }
+  .C .chanrow .avatar { width: 40px; height: 40px; }
+  .C .chanrow b { font-size: 15px; display: block; }
+  .C .chanrow small { color: var(--label-2); font-size: 13px; }
+  .C .acts { margin-left: auto; display: flex; gap: 8px; }
+  .C .act { height: 40px; padding: 0 16px; border-radius: 999px; display: flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 600; }
+  .C .act .ic { width: 18px; height: 18px; }
+  .C .act.sub { background: #1d1d1f; color: #fff; box-shadow: none; }
+  .C .upnext { position: absolute; right: 18px; top: 70px; bottom: 18px; width: 414px; border-radius: 30px; corner-shape: superellipse(1.5); z-index: 10; padding: 18px 14px; overflow: hidden; }
+  .C .upnext h3 { margin: 2px 6px 12px; font-size: 17px; font-weight: 700; letter-spacing: -0.02em; }
+  .C .item { display: flex; gap: 12px; padding: 7px 6px; border-radius: 16px; }
+  .C .item.on { background: rgba(0,0,0,.05); }
+  .C .item .thumb { width: 150px; flex: none; border-radius: 12px; }
+  .C .item .v-title { font-size: 13.5px; margin: 2px 0 3px; }
+  .C .item .v-sub { font-size: 12.5px; margin: 0; }
+</style>
+</head>
+<body>
+<script src="../src/ui/icons.js"></script>
+<div id="app"></div>
+<script>
+const V = [
+  ['dQw4w9WgXcQ','Rick Astley – Never Gonna Give You Up (Official Video)','Rick Astley','3:33','hace 2 h'],
+  ['fJ9rUzIMcZQ','Queen – Bohemian Rhapsody (Official Video Remastered)','Queen Official','5:59','hace 5 h'],
+  ['OPf0YbXqDm0','Mark Ronson – Uptown Funk (Official Video) ft. Bruno Mars','Mark Ronson','4:31','ayer'],
+  ['hT_nvWreIhg','OneRepublic – Counting Stars','OneRepublic','4:43','ayer'],
+  ['YQHsXMglC9A','Adele – Hello (Official Music Video)','Adele','6:07','hace 2 días'],
+  ['60ItHLz5WEA','Alan Walker – Faded','Alan Walker','3:33','hace 3 días'],
+  ['kJQP7kiw5Fk','Luis Fonsi – Despacito ft. Daddy Yankee','Luis Fonsi','4:42','hace 3 días'],
+  ['RgKAFK5djSk','Wiz Khalifa – See You Again ft. Charlie Puth','Wiz Khalifa Music','3:58','hace 4 días'],
+  ['JGwWNGJdvx8','Ed Sheeran – Shape of You (Official Music Video)','Ed Sheeran','4:24','hace 5 días'],
+  ['CevxZvSJLk8','Katy Perry – Roar (Official)','Katy Perry','4:30','hace 6 días'],
+  ['lp-EO5I60KA','Ed Sheeran – Thinking Out Loud','Ed Sheeran','4:57','hace 1 sem.'],
+  ['9bZkp7q19f0','PSY – GANGNAM STYLE (강남스타일) M/V','officialpsy','4:13','hace 1 sem.'],
+];
+const T = id => `thumbs/${id}.jpg`;
+const hue = s => [...s].reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
+const av = name => `<div class="avatar" style="background:linear-gradient(160deg,hsl(${hue(name)} 70% 62%),hsl(${(hue(name)+40)%360} 75% 50%))">${name[0]}</div>`;
+const card = (v, meta = true) => `<div class="card"><div class="thumb"><img src="${T(v[0])}"><span class="dur">${v[3]}</span></div>
+  ${meta ? `<div class="meta-row">${av(v[2])}<div><div class="v-title">${v[1]}</div><div class="v-sub">${v[2]} · ${v[4]}</div></div></div>` : ''}</div>`;
+const winctl = `<div class="win-ctl lg" data-refract="20"><button>${icon('min')}</button><button>${icon('max')}</button><button>${icon('close')}</button></div>`;
+const v = new URLSearchParams(location.search).get('v') || 'a';
+document.body.classList.add(v.toUpperCase());
+const app = document.getElementById('app');
+
+if (v === 'a') app.innerHTML = `
+  <aside class="side lg" data-refract="50">
+    <div class="brand"><b></b>YouTube</div>
+    <nav class="nav"><span class="pill"></span>
+      <button>${icon('home')}Inicio</button><button>${icon('subs')}Suscripciones</button>
+      <button>${icon('heart')}Me gusta</button><button>${icon('list')}Listas</button>
+    </nav>
+    <div class="lbl">Suscripciones</div>
+    ${['Rick Astley','Queen Official','OneRepublic','Adele','Alan Walker','Ed Sheeran'].map((n,i)=>`<div class="chan">${av(n)}${n}${i<3?'<i></i>':''}</div>`).join('')}
+    <div class="me lg tinted" data-refract="14"><div class="avatar">J</div><div>Jaider Silva<small>Cuenta de Google</small></div></div>
+  </aside>
+  <div class="tools"><div class="searchcap lg" data-refract="30">${icon('search')}Buscar en YouTube</div><button class="circ lg" data-refract="22">${icon('bell')}</button></div>
+  ${winctl}
+  <main class="main">
+    <section class="hero"><img src="${T(V[1][0])}">
+      <div class="info"><div class="kick">Nuevo · Queen Official</div><h1>Bohemian Rhapsody<br>(Official Video Remastered)</h1><p>5:59 · hace 5 horas · 1.900 M de vistas</p>
+      <div class="btns"><button class="cta primary">${icon('play')}Reproducir</button><button class="cta round lg dark" data-refract="22">${icon('heart')}</button><button class="cta round lg dark" data-refract="22">${icon('list')}</button></div></div>
+    </section>
+    <div class="row-h"><h2 class="h-sec">Lo nuevo de tus suscripciones ${icon('chevron','chev')}</h2><a>Ver todo</a></div>
+    <div class="scroller-strip"><div class="shelf">${V.slice(2,8).map(x=>card(x)).join('')}</div></div>
+  </main>`;
+
+if (v === 'b') app.innerHTML = `
+  ${winctl}
+  <div class="avatar-top">${av('Jaider')}</div>
+  <main class="main">
+    <div class="head"><div><div class="date">Martes 27 de octubre</div><h1 class="h-large">Inicio</h1></div></div>
+    <div class="chips"><span class="chip on">Todo</span><span class="chip">Hoy</span><span class="chip">Música</span><span class="chip">En vivo</span><span class="chip">Sin ver</span></div>
+    <div class="grid">${V.concat(V.slice(0,4)).map(x=>card(x)).join('')}</div>
+  </main>
+  <div class="edge-top"></div>
+  <div class="mini lg tinted" data-refract="40"><div class="thumb"><img src="${T(V[4][0])}"></div><div class="t">Adele – Hello (Official Music Video)<small>Adele</small></div><button>${icon('pause')}</button><button>${icon('next')}</button></div>
+  <div class="tabbar">
+    <div class="tabs lg tinted" data-refract="56" data-chroma=".12"><span class="pill"></span>
+      <button class="on">${icon('home')}Inicio</button><button>${icon('subs')}Suscripciones</button><button>${icon('library')}Biblioteca</button>
+    </div>
+    <button class="searchbtn lg tinted" data-refract="50">${icon('search')}</button>
+  </div>`;
+
+if (v === 'c') app.innerHTML = `
+  <div class="ambient"><img src="${T(V[2][0])}"></div>
+  <button class="back lg" data-refract="22">${icon('back')}</button>
+  <div class="top"><div class="seg lg" data-refract="26"><span class="pill"></span><button>Inicio</button><button>Suscripciones</button><button>Biblioteca</button></div><div class="searchcap lg" data-refract="26">${icon('search')}Buscar</div></div>
+  ${winctl}
+  <section class="stage">
+    <div class="player"><img src="${T(V[2][0])}">
+      <div class="ctrls lg dark" data-refract="44" data-blur="14" data-bright="0.9" data-chroma=".15">${icon('pause')}<span>1:43</span><div class="bar"><i></i></div><span>4:31</span>${icon('expand')}</div></div>
+    <h1>Mark Ronson – Uptown Funk (Official Video) ft. Bruno Mars</h1>
+    <div class="chanrow">${av('Mark Ronson')}<div><b>Mark Ronson</b><small>4,9 M de suscriptores</small></div>
+      <div class="acts"><button class="act lg" data-refract="20">${icon('thumb')}5,6 M</button><button class="act lg" data-refract="20">${icon('share')}Compartir</button><button class="act sub">Suscrito</button></div></div>
+  </section>
+  <aside class="upnext lg" data-refract="50"><h3>A continuación</h3>
+    ${V.slice(3,10).map((x,i)=>`<div class="item${i===0?' on':''}"><div class="thumb"><img src="${T(x[0])}"><span class="dur">${x[3]}</span></div><div><div class="v-title">${x[1]}</div><div class="v-sub">${x[2]}<br>${x[4]}</div></div></div>`).join('')}
+  </aside>`;
+document.querySelectorAll('.tabs .pill, .seg .pill').forEach(p => { const b = p.parentElement.querySelector('button'); p.style.left = b.offsetLeft + 'px'; p.style.width = b.offsetWidth + 'px'; });
+</script>
+<script src="../src/ui/glass.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>YouTube</title>
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body class="nav-side">
+<script src="icons.js"></script>
+<script src="spring.js"></script>
+
+<div class="dragbar"></div>
+
+<!-- barra lateral flotante (estilo A) -->
+<aside id="side" class="side lg" data-refract="50">
+  <div class="brand"><b></b>YouTube<sup>CO</sup></div>
+  <nav id="nav" class="nav"><span class="pill"></span></nav>
+  <div class="lbl">Suscripciones</div>
+  <div id="chanlist" class="chanlist"></div>
+  <button id="meCard" class="me lg tinted" data-refract="14"></button>
+</aside>
+
+<!-- barra superior -->
+<div id="tools" class="tools">
+  <div class="brand-mini"><b></b>YouTube</div>
+  <label class="searchcap lg" data-refract="30">
+    <svg class="ic"><use href="#i-search"/></svg>
+    <input id="q" type="search" placeholder="Buscar" spellcheck="false" autocomplete="off">
+    <kbd>/</kbd>
+  </label>
+  <button id="meTop" class="circ lg" data-refract="22"></button>
+</div>
+<div id="winctl" class="win-ctl lg" data-refract="20">
+  <button data-w="min" title="Minimizar"><svg class="ic"><use href="#i-min"/></svg></button>
+  <button data-w="max" title="Maximizar"><svg class="ic"><use href="#i-max"/></svg></button>
+  <button data-w="close" class="x" title="Cerrar"><svg class="ic"><use href="#i-close"/></svg></button>
+</div>
+
+<main id="scroll" class="scroll"><div id="page" class="page"></div></main>
+<div class="edge-top"></div>
+
+<!-- barra de pestañas cápsula (estilo B) -->
+<div id="tabbar" class="tabbar">
+  <div id="tabs" class="tabs lg tinted" data-refract="56" data-chroma=".1"><span class="pill"></span></div>
+  <button id="tabSearch" class="searchbtn lg tinted" data-refract="50"><svg class="ic"><use href="#i-search"/></svg></button>
+</div>
+
+<!-- vista del video (estilo C) -->
+<section id="watch" class="watch" aria-hidden="true">
+  <div class="ambient"><img id="ambImg" alt=""></div>
+  <button id="back" class="back lg" data-refract="22" title="Volver (Esc)"><svg class="ic"><use href="#i-back"/></svg></button>
+  <div id="stage" class="stage">
+    <div id="slot" class="slot"></div>
+    <h1 id="wTitle" class="w-title"></h1>
+    <div class="chanrow">
+      <button id="wChan" class="w-chan"></button>
+      <button id="wSub" class="act sub">Suscribirse</button>
+      <div class="acts">
+        <div class="likes lg" data-refract="20"><button id="wLike" class="act"><svg class="ic"><use href="#i-thumb"/></svg><span></span></button><i></i><button id="wDislike" class="act" title="No me gusta"><svg class="ic down"><use href="#i-thumb"/></svg></button></div>
+        <button id="wShare" class="act lg" data-refract="20"><svg class="ic"><use href="#i-share"/></svg>Compartir</button>
+      </div>
+    </div>
+    <div id="wDesc" class="desc"></div>
+  </div>
+  <aside id="upnext" class="upnext lg" data-refract="50">
+    <div class="up-h"><h3>A continuación</h3><button id="autoplay" class="toggle" role="switch" title="Reproducción automática"><i></i></button></div>
+    <div id="upList" class="up-list"></div>
+  </aside>
+</section>
+
+<!-- reproductor oficial de YouTube: nunca se mueve en el DOM (se recargaría); solo cambia de posición -->
+<div id="ph" class="ph" hidden>
+  <div id="ytp"></div>
+  <img id="poster" class="poster" alt="">
+  <!-- pantalla de pausa propia: tapa el panel de "Más videos" y la búsqueda que pone YouTube al pausar -->
+  <button id="veil" class="veil" title="Reproducir"><span class="veil-play lg" data-refract="40"><svg class="ic"><use href="#i-play"/></svg></span><span class="veil-msg"><b>Este video solo se puede ver en YouTube</b><i>Abrir en YouTube</i></span></button>
+  <div class="ph-hit"></div>
+  <div id="vset" class="vset lg dark" data-refract="36" data-blur="18" data-bright="0.85" hidden></div>
+  <div id="ctrls" class="ctrls lg dark" data-refract="44" data-blur="16" data-bright="0.9" data-chroma=".12">
+    <button data-c="prev" class="c-prev"><svg class="ic"><use href="#i-next"/></svg></button>
+    <button data-c="play" class="c-play"><svg class="ic"><use href="#i-pause"/></svg></button>
+    <button data-c="next" class="c-next"><svg class="ic"><use href="#i-next"/></svg></button>
+    <span id="tCur" class="t">0:00</span>
+    <div id="bar" class="bar"><i class="buf"></i><i class="cur"></i><b class="knob"></b></div>
+    <span id="tDur" class="t">0:00</span>
+    <button data-c="mute" class="c-vol"><svg class="ic"><use href="#i-vol"/></svg></button>
+    <input id="vol" class="vol" type="range" min="0" max="100" value="100">
+    <button data-c="cc" class="c-cc" title="Subtítulos"><b>CC</b></button>
+    <button data-c="gear" class="c-gear" title="Ajustes del video"><svg class="ic"><use href="#i-gear"/></svg></button>
+    <button data-c="fs" class="c-fs"><svg class="ic"><use href="#i-expand"/></svg></button>
+    <button data-c="expand" class="c-exp" title="Abrir video"><svg class="ic"><use href="#i-expand"/></svg></button>
+    <button data-c="close" class="c-close" title="Cerrar"><svg class="ic"><use href="#i-close"/></svg></button>
+  </div>
+</div>
+
+<div id="pop" class="pop lg tinted" data-refract="40" hidden></div>
+<div id="toast" class="toast lg tinted" data-refract="30"></div>
+
+<!-- bienvenida / inicio de sesión -->
+<section id="onb" class="onb" hidden>
+  <div class="blobs"><i></i><i></i><i></i><i></i></div>
+  <div class="onb-card lg" data-refract="60" data-chroma=".1">
+    <div class="app-ic"></div>
+    <h1>YouTube</h1>
+    <p id="onbMsg">Inicia sesión para ver tus suscripciones, tus listas y los videos que te gustan.</p>
+    <div id="onbSteps" class="steps"></div>
+  </div>
+</section>
+
+<script src="glass.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
