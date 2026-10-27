@@ -6,22 +6,23 @@
   "scripts": {
     "start": "electron .",
     "demo": "set YTG_DEMO=1&& electron .",
-    "dist": "electron-builder --win nsis"
+    "dist": "electron-builder --win nsis",
+    "android": "node scripts/build-www.js && npx cap copy android && cd android && gradlew.bat assembleRelease"
   },
   "author": "Jaider Silva",
   "type": "commonjs",
-  "dependencies": {},
   "devDependencies": {
-    "@capacitor/cli": "^7.6.9",
-    "electron": "^38.8.6",
-    "electron-builder": "^26.18.0",
     "@capacitor/android": "^7.6.9",
     "@capacitor/app": "^7.1.2",
     "@capacitor/browser": "^7.0.5",
+    "@capacitor/cli": "^7.6.9",
     "@capacitor/core": "^7.6.9",
     "@capacitor/preferences": "^7.0.4",
     "@capacitor/share": "^7.0.4",
-    "@fontsource-variable/inter": "^5.3.0"
+    "@capacitor/status-bar": "^7.0.6",
+    "@fontsource-variable/inter": "^5.3.0",
+    "electron": "^38.8.6",
+    "electron-builder": "^26.18.0"
   },
   "productName": "YouTube",
   "build": {
@@ -33,6 +34,7 @@
     "files": [
       "src/**/*",
       "!src/demo.js",
+      "!src/mobile/**",
       "build/icon.png",
       "GUIA-GOOGLE-CLOUD.md",
       "package.json"

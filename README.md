@@ -30,3 +30,13 @@ npm run dist       # crear el instalador en dist/
 Para conectarla a una cuenta hace falta un cliente OAuth propio de tipo **App de escritorio**: ver [GUIA-GOOGLE-CLOUD.md](GUIA-GOOGLE-CLOUD.md). Las llaves nunca se suben al repositorio.
 
 No es un producto de Google ni de YouTube.
+
+## Versión para Android
+
+La misma interfaz corre en Android con [Capacitor](https://capacitorjs.com): `src/mobile/` tiene el puente (`host.js`) y los estilos del teléfono, `src/ytcore.js` es la lógica de la API compartida con el escritorio y `android/` el proyecto nativo (incluye `LoopbackAuthPlugin`, que recibe la respuesta de Google en el teléfono).
+
+```bash
+npm run android    # arma www/ y compila el APK firmado en android/app/build/outputs/apk/release/
+```
+
+Hace falta `src/mobile/oauth-config.js` (se genera desde el JSON del cliente de escritorio) y `android/keystore.properties` con la llave de firma. Ninguno de los dos se sube al repositorio.

@@ -6,6 +6,8 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const host = window.host;
 const body = document.body;
+const MOBILE = !!host.mobile;
+if (MOBILE) body.classList.add('mobile');
 
 // ---------- formato ----------
 const rtf = new Intl.RelativeTimeFormat('es', { numeric: 'auto' });
@@ -461,7 +463,9 @@ function step(d) {
 
 // ----- posición del reproductor (el iframe nunca se mueve en el DOM) -----
 function target(m) {
+  if (body.classList.contains('fake-fs')) return { x: 0, y: 0, w: innerWidth, h: innerHeight };
   if (m === 'watch') { const r = $('#slot').getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; }
+  if (MOBILE) { const w = Math.round(Math.min(280, innerWidth * 0.62)), h = Math.round(w * 9 / 16); return { x: innerWidth - w - 12, y: innerHeight - h - 104, w, h }; }
   const w = 356, h = 200;
   return { x: innerWidth - w - 20, y: innerHeight - h - 20, w, h };
 }
@@ -536,11 +540,32 @@ $('#ctrls').addEventListener('click', e => {
   else if (c === 'expand') play(cur, queue);
   else if (c === 'close') closePlayer();
 });
-$('.ph-hit').addEventListener('click', togglePlay);
+let lastTap = 0;
+$('.ph-hit').addEventListener('click', e => {
+  if (!MOBILE) return togglePlay();
+  const now = Date.now(), r = ph.getBoundingClientRect();
+  if (now - lastTap < 300 && player) {
+    const fwd = e.clientX > r.left + r.width / 2;
+    player.seekTo(Math.max(0, player.getCurrentTime() + (fwd ? 10 : -10)), true);
+    toast(fwd ? '+10 s' : '−10 s', 700); lastTap = 0; poke(); return;
+  }
+  lastTap = now;
+  ph.classList.contains('show-ctrls') ? showCtrls(false) : poke();
+});
 function togglePlay() { if (!player) return; state === 1 || state === 3 ? player.pauseVideo() : player.playVideo(); }
 function setVolIcon() { const m = player?.isMuted?.() || +$('#vol').value === 0; $('.c-vol use').setAttribute('href', m ? '#i-mute' : '#i-vol'); }
 $('#vol').addEventListener('input', e => { if (!player) return; const v = +e.target.value; player.setVolume(v); if (v > 0) player.unMute(); setVolIcon(); saveUi({ volume: v, muted: false }); });
-function toggleFs() { document.fullscreenElement ? document.exitFullscreen() : ph.requestFullscreen().catch(() => {}); }
+function toggleFs() {
+  if (MOBILE) {
+    const on = !body.classList.contains('fake-fs');
+    body.classList.toggle('fake-fs', on);
+    try { on ? screen.orientation.lock('landscape').catch(() => {}) : screen.orientation.unlock(); } catch {}
+    $('.c-fs use').setAttribute('href', on ? '#i-min' : '#i-expand');
+    setTimeout(() => place(mode), 80);
+    return;
+  }
+  document.fullscreenElement ? document.exitFullscreen() : ph.requestFullscreen().catch(() => {});
+}
 document.addEventListener('fullscreenchange', () => { $('.c-fs use').setAttribute('href', document.fullscreenElement ? '#i-min' : '#i-expand'); setTimeout(() => place(mode), 60); });
 
 const bar = $('#bar');
@@ -606,7 +631,7 @@ function renderWatch(v) {
     likeState = nv; paintLike();
     try { await api('rate', v.id, nv); } catch {}
   };
-  $('#wShare').onclick = () => { host.copy('https://youtu.be/' + v.id); toast('Enlace copiado'); };
+  $('#wShare').onclick = () => { const url = 'https://youtu.be/' + v.id; if (host.share) host.share(url); else { host.copy(url); toast('Enlace copiado'); } };
   // descripción
   const d = $('#wDesc');
   d.classList.remove('open');
@@ -712,6 +737,7 @@ function hideOnb() {
 // =====================================================================
 async function boot() {
   S.ui = await host.settings.get().catch(() => ({})) || {};
+  if (MOBILE) S.ui.nav = 'cap';
   applyNavStyle(S.ui.nav);
   autoBtn.classList.toggle('on', S.ui.autoplay !== false);
   const st = await host.auth.status();
@@ -722,6 +748,16 @@ async function boot() {
   api('subscriptions').then(s => { S.subs = s; renderChanList(); }).catch(() => {});
   loadYT();
 }
+if (host.onBack) host.onBack(() => {
+  if (!vset.hidden) { closeVset(); return true; }
+  if (body.classList.contains('fake-fs')) { toggleFs(); return true; }
+  if (!pop.hidden) { closePop(); return true; }
+  if (S.watchOpen) { closeWatch(); return true; }
+  if (S.route.name !== 'home') { go('home'); return true; }
+  return false;
+});
+// en el teléfono "A continuación" va debajo del video, en la misma columna
+if (MOBILE) stage.appendChild($('#upnext'));
 renderMe();
 boot();
 })();

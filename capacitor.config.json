@@ -1,0 +1,8 @@
+{
+  "appId": "com.jaider.youtubeliquid",
+  "appName": "YouTube",
+  "webDir": "www",
+  "android": { "adjustMarginsForEdgeToEdge": "force" },
+  "server": { "androidScheme": "https" },
+  "plugins": { "CapacitorHttp": { "enabled": true } }
+}

@@ -1,0 +1,91 @@
+/* ===== YouTube Liquid en el teléfono (se carga después de app.css) ===== */
+body.mobile { --pad-l: 14px; --pad-r: 14px; -webkit-user-select: none; overscroll-behavior: none; }
+.mobile .dragbar, .mobile .win-ctl, .mobile .side, .mobile .searchcap kbd { display: none; }
+.mobile .page { padding: 64px 14px 150px; }
+.mobile button { cursor: pointer; }
+
+/* barra superior: marca a la izquierda, búsqueda y foto a la derecha */
+.mobile .brand-mini { left: 16px; top: 22px; z-index: 31; transition: opacity .2s; }
+.mobile .tools { top: 10px; right: 12px; left: auto; gap: 6px; }
+.mobile .searchcap { width: 44px; height: 44px; padding: 0; justify-content: center; }
+.mobile .searchcap input { width: 0; flex: 0; padding: 0; }
+.mobile .searchcap:focus-within { width: calc(100vw - 24px - 50px); padding: 0 12px; justify-content: flex-start; }
+.mobile .searchcap:focus-within input { flex: 1; }
+.mobile:has(.searchcap:focus-within) .brand-mini { opacity: 0; }
+.mobile .circ { width: 44px; height: 44px; }
+.mobile .edge-top { height: 70px; }
+
+/* barra de pestañas cápsula */
+.mobile .tabbar { bottom: 16px; gap: 8px; }
+.mobile .tabs { height: 60px; }
+.mobile .tabs button { width: min(76px, calc((100vw - 110px) / 4)); font-size: 10.5px; }
+.mobile .tabs button span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.mobile .tabs .ic { width: 22px; height: 22px; }
+.mobile .searchbtn { width: 60px; height: 60px; }
+
+/* contenido en una columna */
+.mobile .grid { grid-template-columns: 1fr; gap: 22px; }
+.mobile .chips-row { margin: 0 -14px 14px; }
+.mobile .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 0 14px; }
+.mobile .chip { flex: none; height: 32px; }
+.mobile #refresh { display: none; }
+.mobile .hero { height: 230px; border-radius: 24px; margin-bottom: 22px; }
+.mobile .hero .info { left: 18px; right: 18px; bottom: 18px; }
+.mobile .hero h2 { font-size: 21px; }
+.mobile .hero p { margin-bottom: 12px; font-size: 13px; }
+.mobile .cta { height: 38px; font-size: 14px; }
+.mobile .cta.round { width: 38px; }
+.mobile .dots { right: 16px; bottom: 22px; }
+.mobile .h-large { font-size: 30px; }
+.mobile .page-head { min-height: 0; margin-bottom: 14px; }
+.mobile .shorts { grid-template-columns: repeat(2, 1fr); gap: 18px 10px; }
+.mobile .chan-grid { grid-template-columns: repeat(3, 1fr); gap: 14px 6px; }
+.mobile .chan-tile .avatar { width: 72px; height: 72px; }
+.mobile .pl-grid { grid-template-columns: 1fr; }
+.mobile .shelf > .card { width: 240px; }
+.mobile .you-head .avatar { width: 84px; height: 84px; }
+.mobile .you-head h1 { font-size: 24px; }
+.mobile .ch-head { flex-wrap: wrap; padding: 0 6px; }
+.mobile .ch-head .avatar { width: 88px; height: 88px; }
+.mobile .ch-head h1 { font-size: 22px; }
+.mobile .banner { height: 120px; }
+
+/* vista del video: todo en una columna que se desplaza */
+.mobile .watch .stage { right: 0; padding: 62px 12px 40px; scrollbar-width: none; }
+.mobile .slot { width: 100%; border-radius: 18px; }
+.mobile .ph { border-radius: 18px; }
+.mobile .w-title { font-size: 18px; margin: 14px 2px 10px; }
+.mobile .chanrow { gap: 10px; }
+.mobile .acts { margin-left: 0; width: 100%; overflow-x: auto; scrollbar-width: none; }
+.mobile .watch .upnext { position: static; width: auto; margin-top: 18px; padding: 14px 8px 4px; }
+.mobile .up-list { overflow: visible; mask: none; }
+.mobile .item .thumb { width: 140px; }
+.mobile .back { top: 10px; left: 12px; width: 44px; height: 44px; }
+
+/* controles del reproductor para dedos */
+.mobile .ph-hit { display: block; top: 0; bottom: 25%; height: auto; }
+.mobile .ctrls { bottom: 10px; width: calc(100% - 20px); height: 48px; padding: 0 6px; gap: 0; }
+.mobile .ctrls .c-vol, .mobile .ctrls .vol, .mobile .ctrls .c-cc { display: none; }
+.mobile .ctrls .t { font-size: 11.5px; padding: 0 4px; }
+.mobile .vset { left: 10px; right: 10px; width: auto; bottom: 64px; }
+.mobile .veil-play { width: 64px; height: 64px; }
+
+/* "pantalla completa" dentro de la app (el video ocupa toda la vista, en horizontal) */
+.fake-fs .ph { border-radius: 0 !important; z-index: 90; }
+.fake-fs .tabbar, .fake-fs .tools, .fake-fs .brand-mini { visibility: hidden; }
+
+/* mini reproductor encima de la cápsula */
+.mobile .ph.pip { border-radius: 16px; }
+.mobile .ph.pip .ctrls { height: 40px; bottom: 6px; left: 6px; right: 6px; }
+
+/* ajustes: sin opción de navegación (siempre cápsula) */
+.mobile .pop { left: 12px !important; right: 12px; width: auto; }
+.mobile .pop .row:has(.seg2) { display: none; }
+
+/* bienvenida */
+.mobile .onb-card { width: calc(100vw - 32px); padding: 32px 22px 24px; }
+.mobile .toast { top: 12px; max-width: calc(100vw - 24px); white-space: normal; }
+.mobile.watching .brand-mini { opacity: 0; }
+
+/* en el teléfono la llave ya viene incluida: solo el botón de iniciar sesión */
+.mobile .step, .mobile .steps > .link { display: none; }
